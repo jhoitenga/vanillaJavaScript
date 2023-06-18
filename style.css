@@ -90,3 +90,8 @@ h1 {
   background-color: #7886fb;
   border: 0.16em solid #559af4;
 }
+
+.weather {
+  background-color: red;
+  padding: 20px;
+}

@@ -1,19 +1,35 @@
-const data = null;
+const weather = document.getElementById("weather");
 
-const xhr = new XMLHttpRequest();
-xhr.withCredentials = true;
+const fetchData = async () => {
+  const url =
+    "https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?zip=64152";
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "455a2a2430mshfb6021f3092028bp1a4ebfjsn49aa6d57aed2",
+      "X-RapidAPI-Host": "weather-by-api-ninjas.p.rapidapi.com",
+    },
+  };
 
-xhr.addEventListener("readystatechange", function () {
-  if (this.readyState === this.DONE) {
-    console.log(this.responseText);
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    // console.log(data);
+
+    // Extract the temperature in Celsius from the response
+    const temperatureCelsius = data.temp;
+
+    // Convert Celsius to Fahrenheit
+    const temperatureFahrenheit = Math.round((temperatureCelsius * 9) / 5 + 32);
+    //console.log("Temperature in Fahrenheit:", temperatureFahrenheit);
+
+    // Update the HTML content with the temperature
+    weather.textContent = `Kansas City Temperature: ${temperatureFahrenheit.toFixed(
+      0
+    )}°F`;
+  } catch (error) {
+    console.error(error);
   }
-});
+};
 
-xhr.open("GET", "https://weatherapi-com.p.rapidapi.com/timezone.json?q=64108");
-xhr.setRequestHeader(
-  "X-RapidAPI-Key",
-  "455a2a2430mshfb6021f3092028bp1a4ebfjsn49aa6d57aed2"
-);
-xhr.setRequestHeader("X-RapidAPI-Host", "weatherapi-com.p.rapidapi.com");
-
-xhr.send(data);
+fetchData();
